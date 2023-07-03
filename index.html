@@ -1,0 +1,13 @@
+﻿<!doctype html>
+<html>
+<head>
+<script src="markdown.js"></script>
+</head>
+<body>
+<form>
+<textarea id="t" style="margin:0px;width:100%;height:150px;"></textarea>
+<input type="button" value="测试" onclick="content.innerHTML=markdown.toHTML(t.value);">
+</form>
+<div id="content"></div>
+</body>
+</html>
