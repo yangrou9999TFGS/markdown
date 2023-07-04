@@ -1,7 +1,7 @@
 $("style")[0].outerHTML='';
 $("style")[0].outerHTML='';
 function addMdStyle(text){document.head.innerHTML+=`<style>${text}</style>`}
-addMdStyle('<style id="mdStyle">.code{padding:2px,4px;font-size:90%;color:#c7254e;background:#f9f2f4;border-radius:4px;}img{width:200px;}.code2{display: block; padding: 9.5px; margin: 0 0 10px; font-size: 13px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 4px;}</style>');
+addMdStyle('.code{padding:2px,4px;font-size:90%;color:#c7254e;background:#f9f2f4;border-radius:4px;}img{width:200px;}.code2{display: block; padding: 9.5px; margin: 0 0 10px; font-size: 13px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 4px;}');
 addMdStyle('table { width: 200px; margin-bottom: 20px; border: 1px solid #d9d9d9; border-collapse: collapse; border-left: none; word-break: normal; }');
 addMdStyle('table td,table th {padding: 8px;border: 1px solid #d9d9d9;line-height: 20px;vertical-align: middle;}');
 addMdStyle('table tr:nth-of-type(2n) {background-color: hsla(0,0%,71%,.1);}');
