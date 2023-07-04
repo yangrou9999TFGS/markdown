@@ -1,12 +1,16 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
+<script src="jquery.js"></script>
+<script src="scratchblocks.js"></script>
 <script src="markdown.js"></script>
+<link href='qq_face.css' rel="stylesheet">
+<link href='scratchblocks.css' rel="stylesheet">
 </head>
 <body>
 <form>
 <textarea id="t" style="margin:0px;width:100%;height:150px;"></textarea>
-<input type="button" value="测试" onclick="content.innerHTML=markdown.toHTML(t.value);">
+<input type="button" value="测试" onclick="content.innerHTML=markdown.toHTML(t.value);scratchblocks.renderMatching('pre.blocks',{style:'scratch3',languages: ['en'],scale: 1,});">
 </form>
 <div id="content"></div>
 </body>
