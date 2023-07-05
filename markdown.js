@@ -34,9 +34,9 @@ function toHTML(text){
                 _line[i]+=_line[i+1]+"\n";
                 _line.splice(i+1,1);
             }
-            if(/\{.*\}/.test(_line[i+1])){
+            if(/^\{.*\}$/.test(_line[i+1])){
                 _line[i]=`<pre style='${_line[i+1].slice(1,-1).replaceAll("'",'"')}' class="code2 blocks">${_line[i]}</pre>`;
-                _line[i+1]=''
+                _line.splice(i+1,1);
             }else{
                 _line[i]=`<pre class="code2 blocks">${_line[i]}</pre>`;
             }
@@ -56,9 +56,9 @@ function toHTML(text){
                 _line[i]+=_line[i+1]+"\n";
                 _line.splice(i+1,1);
             }
-            if(/\{.*\}/.test(_line[i+1])){
+            if(/^\{.*\}$/.test(_line[i+1])){
                 _line[i]=`<pre style='${_line[i+1].slice(1,-1).replaceAll("'",'"')}' class="code2">${_line[i]}</pre>`;
-                _line[i+1]=''
+                _line.splice(i+1,1);
             }else{
                 _line[i]=`<pre class="code2">${_line[i]}</pre>`;
             }
@@ -80,9 +80,10 @@ function toHTML(text){
                 else chars[c-1]='',chars[c]='**';
             }
             if(chars[c]=='`'){
-                if(/\{.*\}/.test(_line[i+1])){
+                if(/^\{.*\}$/.test(_line[i+1])){
                     if(chars[c-1]!='\\')chars[c]=sym3?`<span class="code" style='${_line[i+1].slice(1,-1).replaceAll("'",'"')}'>`:'</span>',sym3=!sym3;
                     else chars[c-1]='';
+					_line.splice(i+1,1);
                 }else{
                     if(chars[c-1]!='\\')chars[c]=sym3?`<span class="code">`:'</span>',sym3=!sym3;
                     else chars[c-1]='';
@@ -118,12 +119,13 @@ function toHTML(text){
             }
             let l=i2;
             if(i2==_line[i].length)break;
-            if(/ “.*“/.test(_url)){
-                _title=_url.slice(_url.indexOf(' ')+2,-1);
+            if(/ &quot;.*&quot;/.test(_url)){
+                _title=_url.slice(_url.indexOf(' ')+7,-6);
                 _url=_url.slice(0,_url.indexOf(' '));
             }
-            if(/\{.*\}/.test(_line[i+1])){
+            if(/^\{.*\}$/.test(_line[i+1])){
                 _line[i]=_line[i].slice(0,f)+`<img style='${_line[i+1].slice(1,-1).replaceAll("'",'"')}' title='${_title}' alt='${_name}' src='${_url}'>`+_line[i].slice(l+1);
+				_line.splice(i+1,1);
             }else{
                 _line[i]=_line[i].slice(0,f)+`<img title='${_title}' alt='${_name}' src='${_url}'>`+_line[i].slice(l+1);
             }
@@ -143,19 +145,21 @@ function toHTML(text){
             }
             let l=i2;
             if(i2==_line[i].length)break;
-            if(/ “.*“/.test(_url)){
-                _title=_url.slice(_url.indexOf(' ')+2,-1);
+            if(/ &quot;.*&quot;/.test(_url)){
+                _title=_url.slice(_url.indexOf(' ')+7,-6);
                 _url=_url.slice(0,_url.indexOf(' '));
             }
-            if(/\{.*\}/.test(_line[i+1])){
+            if(/^\{.*\}$/.test(_line[i+1])){
                 _line[i]=_line[i].slice(0,f)+`<a style='${_line[i+1].slice(1,-1).replaceAll("'",'"')}' title='${_title}' href='${_url}'>${_name}</a>`+_line[i].slice(l+1);
+				_line.splice(i+1,1);
             }else{
                 _line[i]=_line[i].slice(0,f)+`<a title='${_title}' href='${_url}'>${_name}</a>`+_line[i].slice(l+1);
             }
         }
         if(/^-{3,}$/.test(_line[i])){
-            if(/\{.*\}/.test(_line[i+1])){
+            if(/^\{.*\}$/.test(_line[i+1])){
                 _line[i]=`<hr style='${_line[i+1].slice(1,-1).replaceAll("'",'"')}'>`
+				_line.splice(i+1,1);
             }else{
                 _line[i]="<hr>"
             }
@@ -218,8 +222,9 @@ function toHTML(text){
                 }
                 __content+="</tr>";
             }
-            if(/\{.*\}/.test(_line[i+__count])){
+            if(/^\{.*\}$/.test(_line[i+__count])){
                 __content=`<table style='${_line[i+__count].slice(1,-1).replaceAll("'",'"')}'>${__content}</table>`;
+				_line.splice(i+__count,i);
             }else{
                 __content=`<table>${__content}</table>`;
             }
@@ -235,7 +240,7 @@ function toHTML(text){
                 __count++;
             }
             for(let __i2=0;__i2<__content.length;__i2++){
-                if(/\{.*\}/.test(__content[__i2+1])){
+                if(/^\{.*\}$/.test(__content[__i2+1])){
                     __content[__i2]=`<li style='${__content[__i2+1].slice(1,-1).replaceAll("'","\'")}'>${__content[__i2]}</li>`;
                     __content.splice(__i2+1,1);
                     __count--;
@@ -244,9 +249,6 @@ function toHTML(text){
                 }
             }
             _line[i]=`<ul>${__content.join('')}</ul>`;
-            console.log(__count);
-            console.log(i+1);
-            console.log(_line);
             _line.splice(i+1,__count-1);
         }
         let qqFace=['微笑','撇嘴','色','发呆','得意','流泪','害羞','闭嘴','睡','大哭','尴尬','发怒','调皮','呲牙','惊讶','难过','酷','冷汗','抓狂','吐','偷笑','愉快','白眼','傲慢','饥饿','困','惊恐','流汗','憨笑','悠闲','奋斗','咒骂','疑问','嘘','晕','疯了','衰','骷髅','敲打','再见','擦汗','抠鼻','鼓掌','糗大了','坏笑','左哼哼','右哼哼','哈欠','鄙视','委屈','快哭了','阴险','亲亲','吓','可怜','菜刀','西瓜','啤酒','篮球','乒乓','咖啡','饭','猪头','玫瑰','凋谢','嘴唇','爱心','心碎','蛋糕','闪电','炸弹','刀','足球','瓢虫','便便','月亮','太阳','礼物','拥抱','强','弱','握手','胜利','抱拳','勾引','拳头','差劲','爱你','NO','OK','爱情','飞吻','跳跳','发抖','怄火','转圈','磕头','回头','跳绳','投降','激动','乱舞','献吻','左太极','右太极','嘿哈','捂脸','滑稽','机智','皱眉','耶','吃瓜','猫','二哈','doge'];
@@ -254,10 +256,27 @@ function toHTML(text){
             _line[i]=_line[i].replaceAll('/'+qqFace[__i2],`<span class="qq_face qqface${__i2}"></span>`);
         }
 
-        if(/^\{.*\}/.test(_line[i+1])){
+        let __replace={
+            '[0]':'font-size:19px;text-decoration:none;color:#2EC9FF;border:1px solid #2EC9FF;background:white;padding:7px;border-radius:7px;:hover{background:#2EC9FF;color:white;cursor:pointer;}'
+        };
+        if(/^\{.*\}$/.test(_line[i+1])){
             _line[i+1]=_line[i+1].replaceAll("'",'"');
             _line[i]=`<span style='${_line[i+1].slice(1,-1)}'>${_line[i]}</span>`;
-            _line[i+1]='';
+            _line.splice(i+1,1);
+        }
+        for(let __index in __replace){
+            _line[i]=_line[i].replaceAll(__index,__replace[__index]);
+        }
+        if(/style='.*:hover{.*}.*'/.test(_line[i])){
+            let __i2=-1;
+            while(/style='.*:hover{.*}.*'/.test(_line[++__i2])){
+                let __cls='__'+i2;
+                _line[0]=`<style>.${__cls}${_line[i].match(/style='.*:hover{.*}.*'/)[0].match(/:hover{.*}/)[0]}</style>`+_line[0];
+                _line[i]=_line[i].replace(/style='.*:hover{.*}.*'/,`class='${__cls}'`+_line[i].match(/style='.*:hover{.*}.*'/)[0]);
+                _line[i]=_line[i].replace(/style='.*:hover{.*}.*'/,_line[i].match(/style='.*:hover{.*}.*'/)[0].replace(/:hover{.*}/,''));
+                _line[0]=`<style>.${__cls}{${_line[i].match(/style='.*'/)[0].match(/'.*'/)[0].slice(1,-1)}}</style>`+_line[0];
+                _line[i]=_line[i].replace(/style='.*'/,'');
+            }
         }
         _line[i]=_line[i].replaceAll('\\\\','\\');
         _line[i]=_line[i].replaceAll('\\|','|');
